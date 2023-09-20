@@ -3,17 +3,25 @@ import numpy as np
 
 
 def is_daytime(frame):
-    # Convert the frame to grayscale
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
-    # Calculate the mean brightness of the grayscale image
     mean_brightness = np.mean(gray)
 
-    # You can adjust this threshold as needed
-    threshold = 100  # You may need to tune this value based on your specific use case
+    threshold = 100
 
-    # Determine if it's daytime based on the mean brightness
     if mean_brightness > threshold:
         return True
     else:
         return False
+
+def calculate_bbox_center(bbox):
+    x_min, y_min, x_max, y_max = bbox
+    center_x = (x_min + x_max) / 2
+    center_y = (y_min + y_max) / 2
+    return center_x, center_y
+
+def draw_trajectory(image, coordinates):
+    for i in range(1, len(coordinates)):
+        cv2.line(image, coordinates[i - 1], coordinates[i], (0, 0, 255), thickness=2)
+
+    return image

@@ -77,16 +77,16 @@ with open('dataset/test_annotations.json', 'w') as file:
 
 # Move the frames_with_annotations to their respective directories
 for image in train_images:
-    src_image_path = os.path.join('dataset/dp_dataset/frames_with_annotations', image['file_name'])
+    src_image_path = os.path.join('dataset/dp_dataset/frames_with_annotations', os.path.basename(image['file_name']))
     dst_image_path = os.path.join('dataset/train', os.path.basename(image['file_name']))
     shutil.move(src_image_path, dst_image_path)
 
 for image in valid_images:
-    src_image_path = os.path.join('dataset/dp_dataset/frames_with_annotations', image['file_name'])
+    src_image_path = os.path.join('dataset/dp_dataset/frames_with_annotations', os.path.basename(image['file_name']))
     dst_image_path = os.path.join('dataset/valid', os.path.basename(image['file_name']))
     shutil.move(src_image_path, dst_image_path)
 
 for image in test_images:
-    src_image_path = os.path.join('dataset/dp_dataset/frames_with_annotations', image['file_name'])
+    src_image_path = os.path.join('dataset/dp_dataset/frames_with_annotations', os.path.basename(image['file_name']))
     dst_image_path = os.path.join('dataset/test', os.path.basename(image['file_name']))
     shutil.move(src_image_path, dst_image_path)

@@ -25,3 +25,18 @@ def draw_trajectory(image, coordinates):
         cv2.line(image, coordinates[i - 1], coordinates[i], (0, 0, 255), thickness=2)
 
     return image
+
+def load_points_from_file(file_path):
+    points = []
+    try:
+        with open(file_path, 'r') as file:
+            for line in file:
+                line = line.strip().strip('()')
+                x, y = map(int, line.split(','))
+                points.append((x, y))
+
+        return points
+
+    except FileNotFoundError:
+        print(f"File '{file_path}' not found.")
+        return None

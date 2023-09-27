@@ -41,3 +41,5 @@ output = 'data/output/sot1.mp4'
 print(f'\n making the output video at {output} with a FPS of {imgs.fps}')
 mmcv.frames2video(out_path, output, fps=imgs.fps, fourcc='mp4v')
 out_dir.cleanup()
+
+# udelat pokus porovnat casy a IoU

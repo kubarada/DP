@@ -5,23 +5,16 @@ FRAME_PATH = 'data/input/frame_027673.PNG'
 POINTS_PATH = 'data/input/trajectory.txt'
 OUTPUT = 'data/output/out1.png'
 JSON_PATH = 'data/input/instances_default.json'
-OUTPUT_BBOX = 'data/output/bbox.txt'
+INPUT_BBOX1 = 'data/input/bbox_ground_truth.txt'
+INPUT_BBOX2 = 'data/input/bbox_siamese_rpn.txt'
 
-frame = cv2.imread(FRAME_PATH)
 
-coordinates = methods.load_points_from_file(POINTS_PATH)
 
-frame = methods.draw_trajectory(frame, coordinates)
+iou_list = []
+bbox_siamese_rpn = methods.load_bounding_boxes_from_file(INPUT_BBOX2)
+bbox_ground_truth = methods.load_bounding_boxes_from_file(INPUT_BBOX1)
 
-if methods.is_daytime(frame):
-     cv2.putText(frame, "is_day=1", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
-else:
-    cv2.putText(frame, "is_day=0", (10, 30), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
+for i in range(len(bbox_ground_truth)):
+    iou_list.append(methods.calculate_iou(bbox_ground_truth[i], bbox_siamese_rpn[i]))
 
-width, length = frame.shape[:2]
-cv2.putText(frame, "img_size = (" + str(width) + ', ' + str(length) + ')', (10, 50), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 0, 255), 2)
-
-cv2.imwrite(OUTPUT, frame)
-
-bbox_list = methods.extract_bbox(JSON_PATH, 'pig_shape')[1::2]
-methods.list_to_file(bbox_list, OUTPUT_BBOX)
+print(iou_list)

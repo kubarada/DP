@@ -75,3 +75,44 @@ def list_to_file(my_list, file_path):
     except Exception as e:
         print(f"An error occurred: {e}")
 
+def calculate_iou(box1, box2):
+    # Extract coordinates from the bounding box tuples
+    x1, y1, x2, y2 = box1
+    x3, y3, x4, y4 = box2
+
+    # Calculate the intersection coordinates
+    x_intersection = max(0, min(x2, x4) - max(x1, x3))
+    y_intersection = max(0, min(y2, y4) - max(y1, y3))
+
+    # Calculate the area of intersection and union
+    intersection_area = x_intersection * y_intersection
+    box1_area = (x2 - x1) * (y2 - y1)
+    box2_area = (x4 - x3) * (y4 - y3)
+    union_area = box1_area + box2_area - intersection_area
+
+    # Calculate the Intersection over Union
+    iou = intersection_area / union_area
+
+    return iou
+
+def calculate_final_iou(iou_list):
+    return sum(iou_list)/len(iou_list)
+
+def load_bounding_boxes_from_file(file_path):
+    bounding_boxes = []
+
+    try:
+        with open(file_path, 'r') as file:
+            for line in file:
+                # Remove parentheses and split the line into individual values
+                values = line.strip('()\n').split(', ')
+
+                # Convert the values to floats and create a tuple
+                bbox_tuple = tuple(map(float, values))
+
+                # Append the tuple to the list of bounding_boxes
+                bounding_boxes.append(bbox_tuple)
+    except FileNotFoundError:
+        print(f"File not found: {file_path}")
+
+    return bounding_boxes

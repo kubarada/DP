@@ -1,9 +1,10 @@
 import methods
 import cv2
 
-FRAME_PATH = 'data/frame_027673.png'
-POINTS_PATH = 'data/trajectory.txt'
+FRAME_PATH = 'data/input/frame_027673.PNG'
+POINTS_PATH = 'data/input/trajectory.txt'
 OUTPUT = 'data/output/out1.png'
+JSON_PATH = 'data/input/instances.json'
 
 frame = cv2.imread(FRAME_PATH)
 

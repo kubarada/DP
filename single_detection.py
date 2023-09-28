@@ -29,8 +29,11 @@ imgs = mmcv.VideoReader(input_video)
 prog_bar = mmcv.ProgressBar(len(imgs))
 out_dir = tempfile.TemporaryDirectory()
 out_path = out_dir.name
+bbox_track = []
+bbox_track.append(result[0][1][:4])
 for i, img in enumerate(imgs):
     result = inference_sot(sot_model, img, init_bbox, frame_id=i)
+    bbox_track.append(result[0][1][:4])
     sot_model.show_result(
             img,
             result,
@@ -41,5 +44,4 @@ output = 'data/output/sot1.mp4'
 print(f'\n making the output video at {output} with a FPS of {imgs.fps}')
 mmcv.frames2video(out_path, output, fps=imgs.fps, fourcc='mp4v')
 out_dir.cleanup()
-
-# udelat pokus porovnat casy a IoU
+print(bbox_track)

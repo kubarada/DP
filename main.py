@@ -17,4 +17,4 @@ bbox_ground_truth = methods.load_bounding_boxes_from_file(INPUT_BBOX1)
 for i in range(len(bbox_ground_truth)):
     iou_list.append(methods.calculate_iou(bbox_ground_truth[i], bbox_siamese_rpn[i]))
 
-print(iou_list)
+print('Average IoU over all bboxes = ', 100 * methods.calculate_final_iou(iou_list), '%')

@@ -1,0 +1,33 @@
+import cv2
+import mmcv
+from mmdet.apis import init_detector, inference_detector
+import methods
+
+# Specify the path to model config and checkpoint file
+config_file = 'C:/Users/Jakub/mmdetection/mmdetection/configs/faster_rcnn/test.py'
+checkpoint_file = 'D:/Škola/bc_prace/epoch_12_faster_rcnn.pth'
+OUTPUT_BBOX = 'data/output/bbox_faster_rcnn.txt'
+bbox_detect = []
+# Build the model from a config file and a checkpoint file
+model = init_detector(config_file, checkpoint_file, device='cuda:0')
+
+video_path = 'data/input/1.mp4'
+cap = cv2.VideoCapture(video_path)
+
+if not cap.isOpened():
+    print("Error: Could not open video.")
+    exit()
+
+i = 0
+
+while True:
+    ret, frame = cap.read()
+    if not ret:
+        break  # Break the loop if we have reached the end of the video
+    result = inference_detector(model, frame)
+    i += 1
+    print('Frame: ', i, '/1385')
+    bbox_detect.append(tuple(result[0][1][:4]))
+
+methods.list_to_file(bbox_detect, OUTPUT_BBOX)
+

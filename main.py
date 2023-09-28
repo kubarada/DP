@@ -7,6 +7,8 @@ OUTPUT = 'data/output/out1.png'
 JSON_PATH = 'data/input/instances_default.json'
 INPUT_BBOX1 = 'data/input/bbox_ground_truth.txt'
 INPUT_BBOX2 = 'data/input/bbox_siamese_rpn.txt'
+INPUT_BBOX3 = 'data/input/bbox_faster_rcnn.txt'
+
 
 
 

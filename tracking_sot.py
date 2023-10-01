@@ -6,6 +6,7 @@ import tempfile
 from mmtrack.apis import init_model
 from mmtrack.apis import inference_sot
 import methods
+import time
 
 
 # Specify the path to model config and checkpoint file
@@ -33,16 +34,20 @@ out_dir = tempfile.TemporaryDirectory()
 out_path = out_dir.name
 
 bbox_track = []
+start_time = time.time()
 
 for i, img in enumerate(imgs):
     result = inference_sot(sot_model, img, init_bbox, frame_id=i)
-    bbox = result['track_bboxes'][:4]
+    bbox = result['track_results'][1:5]
     bbox_track.append(tuple(bbox))
     sot_model.show_result(img, result, wait_time=int(1000. / imgs.fps), out_file=f'{out_path}/{i:06d}.jpg')
     prog_bar.update()
+end_time = time.time()
+elapsed_time = end_time - start_time
 
 output = 'data/output/siamese_rpn_output.mp4'
 print(f'\n making the output video at {output} with a FPS of {imgs.fps}')
+print(f"Elapsed time: {elapsed_time:.4f} seconds")
 mmcv.frames2video(out_path, output, fps=imgs.fps, fourcc='mp4v')
 out_dir.cleanup()
 methods.list_to_file(bbox_track, OUTPUT_BBOX)

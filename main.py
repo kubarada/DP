@@ -8,12 +8,14 @@ JSON_PATH = 'data/input/instances_default.json'
 INPUT_BBOX1 = 'data/input/bbox_ground_truth.txt'
 INPUT_BBOX2 = 'data/input/bbox_siamese_rpn.txt'
 INPUT_BBOX3 = 'data/input/bbox_faster_rcnn.txt'
+INPUT_BBOX4 = 'data/input/bbox_deepsort.txt'
+
 
 
 
 
 iou_list = []
-bbox_siamese_rpn = methods.load_bounding_boxes_from_file(INPUT_BBOX2)
+bbox_siamese_rpn = methods.load_bounding_boxes_from_file(INPUT_BBOX4)
 bbox_ground_truth = methods.load_bounding_boxes_from_file(INPUT_BBOX1)
 
 for i in range(len(bbox_ground_truth)):

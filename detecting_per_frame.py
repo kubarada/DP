@@ -27,7 +27,7 @@ while True:
         break  # Break the loop if we have reached the end of the video
     result = inference_detector(model, frame)
     i += 1
-    print('Frame: ', i, '/1385')
+    #print('Frame: ', i, '/1385')
     bbox_detect.append(tuple(result[0][1][:4]))
 
 end_time = time.time()

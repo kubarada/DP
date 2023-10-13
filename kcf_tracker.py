@@ -3,7 +3,7 @@ import methods
 
 tracker = cv2.legacy.TrackerTLD_create()
 #tracker = cv2.legacy.TrackerKCF_create()
-OUTPUT_BBOX = 'data/output/bbox_mosse.txt'
+OUTPUT_BBOX = 'data/output/bbox_tld.txt'
 
 video = cv2.VideoCapture("data/input/1.mp4")
 ret, frame = video.read()

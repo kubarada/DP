@@ -105,7 +105,7 @@ def load_bounding_boxes_from_file(file_path):
         with open(file_path, 'r') as file:
             for line in file:
                 # Remove parentheses and split the line into individual values
-                values = line.strip('()\n').split(', ')
+                values = line.strip('()\n').strip('[]\n').split(', ')
 
                 # Convert the values to floats and create a tuple
                 bbox_tuple = tuple(map(float, values))

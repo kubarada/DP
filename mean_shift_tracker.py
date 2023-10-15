@@ -1,4 +1,7 @@
 import cv2
+import methods
+OUTPUT_BBOX = 'data/output/bbox_mean_shift.txt'
+
 
 # Open a video capture object or load a video file
 cap = cv2.VideoCapture('data/input/1.mp4')
@@ -12,6 +15,7 @@ roi = frame[y:y+h, x:x+w]
 
 # Setup the termination criteria for Mean-Shift
 term_crit = (cv2.TERM_CRITERIA_EPS | cv2.TERM_CRITERIA_COUNT, 10, 1)
+bboxes = []
 
 while True:
     ret, frame = cap.read()
@@ -33,6 +37,7 @@ while True:
 
     # Update the ROI coordinates
     x, y, w, h = track_window
+    bboxes.append([track_window[0]*2, track_window[1]*2, track_window[0]*2+track_window[2]*2, track_window[1]*2+track_window[3]*2])
 
     # Draw the tracked object on the frame
     cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)
@@ -42,6 +47,8 @@ while True:
 
     if cv2.waitKey(30) & 0xFF == 27:  # Press 'Esc' to exit
         break
+
+methods.list_to_file(bboxes, OUTPUT_BBOX)
 
 cap.release()
 cv2.destroyAllWindows()

@@ -13,14 +13,13 @@ INPUT_BBOX5 = 'data/input/bbox_kcf.txt'
 INPUT_BBOX6 = 'data/input/bbox_mosse.txt'
 INPUT_BBOX7 = 'data/input/bbox_ada_boost.txt'
 INPUT_BBOX8 = 'data/input/bbox_tld.txt'
-
-
+INPUT_BBOX9 = 'data/input/bbox_mean_shift.txt'
 
 
 
 iou_list = []
 bbox_siamese_rpn = methods.load_bounding_boxes_from_file(INPUT_BBOX1)
-bbox_ground_truth = methods.load_bounding_boxes_from_file(INPUT_BBOX5)
+bbox_ground_truth = methods.load_bounding_boxes_from_file(INPUT_BBOX9)
 
 for i in range(len(bbox_ground_truth)):
     iou_list.append(methods.calculate_iou(bbox_ground_truth[i], bbox_siamese_rpn[i]))

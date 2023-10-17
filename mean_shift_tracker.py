@@ -37,7 +37,7 @@ while True:
 
     # Update the ROI coordinates
     x, y, w, h = track_window
-    bboxes.append([track_window[0]*2, track_window[1]*2, track_window[0]*2+track_window[2]*2, track_window[1]*2+track_window[3]*2])
+    bboxes.append([track_window[0], track_window[1], track_window[0]+track_window[2], track_window[1]+track_window[3]])
 
     # Draw the tracked object on the frame
     cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 255, 0), 2)

@@ -19,9 +19,19 @@ INPUT_BBOX9 = 'data/input/bbox_mean_shift.txt'
 
 iou_list = []
 bbox_siamese_rpn = methods.load_bounding_boxes_from_file(INPUT_BBOX1)
-bbox_ground_truth = methods.load_bounding_boxes_from_file(INPUT_BBOX9)
+bbox_ground_truth = methods.load_bounding_boxes_from_file(INPUT_BBOX5)
 
 for i in range(len(bbox_ground_truth)):
     iou_list.append(methods.calculate_iou(bbox_ground_truth[i], bbox_siamese_rpn[i]))
 
+iou_list.append(0)
+iou_list.append(0)
+iou_list.append(0)
+iou_list.append(0)
+
 print('Average IoU over all bboxes = ', 100 * methods.calculate_final_iou(iou_list), '%')
+
+methods.combine_images('data/input/TLDTracking_screenshot_22.10.2023.png',
+                       'data/input/TLDTracking_screenshot_22.10.2023a.png', 'data/output/combined_image.jpg')
+methods.combine_images('data/input/Tracking_screenshot_22.10.2023.png',
+                       'data/input/Tracking_screenshot_22.10.2023a.png', 'data/output/combined_image1.jpg')

@@ -76,21 +76,20 @@ def list_to_file(my_list, file_path):
         print(f"An error occurred: {e}")
 
 def calculate_iou(box1, box2):
-    # Extract coordinates from the bounding box tuples
     x1, y1, x2, y2 = box1
     x3, y3, x4, y4 = box2
 
-    # Calculate the intersection coordinates
+    # intersection
     x_intersection = max(0, min(x2, x4) - max(x1, x3))
     y_intersection = max(0, min(y2, y4) - max(y1, y3))
-
-    # Calculate the area of intersection and union
     intersection_area = x_intersection * y_intersection
+
+    #  union
     box1_area = (x2 - x1) * (y2 - y1)
     box2_area = (x4 - x3) * (y4 - y3)
     union_area = box1_area + box2_area - intersection_area
 
-    # Calculate the Intersection over Union
+    # Intersection over Union
     iou = intersection_area / union_area
 
     return iou
@@ -100,19 +99,43 @@ def calculate_final_iou(iou_list):
 
 def load_bounding_boxes_from_file(file_path):
     bounding_boxes = []
-
     try:
         with open(file_path, 'r') as file:
             for line in file:
-                # Remove parentheses and split the line into individual values
                 values = line.strip('()\n').strip('[]\n').split(', ')
-
-                # Convert the values to floats and create a tuple
                 bbox_tuple = tuple(map(float, values))
-
-                # Append the tuple to the list of bounding_boxes
                 bounding_boxes.append(bbox_tuple)
     except FileNotFoundError:
         print(f"File not found: {file_path}")
 
     return bounding_boxes
+
+def combine_images(image1_path, image2_path, output_path):
+    # Load the two images
+    image1 = cv2.imread(image1_path)
+    image2 = cv2.imread(image2_path)
+
+    if image1 is None or image2 is None:
+        print("Failed to load one or both images.")
+        return
+
+    # Check if the images have the same height, and resize if needed
+    if image1.shape[0] != image2.shape[0]:
+        new_height = max(image1.shape[0], image2.shape[0])
+        image1 = cv2.resize(image1, (int(image1.shape[1] * new_height / image1.shape[0]), new_height))
+        image2 = cv2.resize(image2, (int(image2.shape[1] * new_height / image2.shape[0]), new_height))
+    else:
+        new_height = image2.shape[0]
+
+    # Create a new blank image with a width that can accommodate both images
+    combined_width = image1.shape[1] + image2.shape[1]
+    combined_image = np.zeros((new_height, combined_width, 3), dtype=np.uint8)
+
+    # Copy the two loaded images onto the new image
+    combined_image[:, :image1.shape[1]] = image1
+    combined_image[:, image1.shape[1]:] = image2
+
+    # Save the resulting image
+    cv2.imwrite(output_path, combined_image)
+
+    print(f"Combined image saved as {output_path}")
